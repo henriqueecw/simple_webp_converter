@@ -1,0 +1,51 @@
+{
+  "app": {
+    "title": "WebP Converter",
+    "subtitle": "Convert your images to WebP format with optimal compression"
+  },
+  "dropzone": {
+    "title": "Drop your images here",
+    "subtitle": "or click to browse",
+    "hint": "Supports PNG, JPG, JPEG, GIF, BMP, TIFF",
+    "processing": "Processing images..."
+  },
+  "settings": {
+    "title": "Conversion Settings",
+    "quality": {
+      "label": "Quality",
+      "tooltip": "Higher quality means larger file size. 80-90 is recommended for most images."
+    },
+    "resize": {
+      "label": "Resize",
+      "tooltip": "Scale down images to reduce file size. 100% keeps original dimensions."
+    },
+    "lossless": {
+      "label": "Lossless",
+      "tooltip": "Preserves perfect quality but results in larger files. Best for graphics with sharp edges."
+    }
+  },
+  "results": {
+    "title": "Converted Images",
+    "original": "Original",
+    "converted": "WebP",
+    "reduction": "reduction",
+    "download": "Download",
+    "downloadAll": "Download All as ZIP",
+    "clear": "Clear All",
+    "sequence": "Sequence",
+    "images": "images",
+    "singleImage": "Single Image",
+    "missingFrames": "Missing frames detected"
+  },
+  "status": {
+    "ready": "Ready",
+    "converting": "Converting...",
+    "done": "Done",
+    "error": "Error"
+  },
+  "errors": {
+    "unsupportedFormat": "Unsupported file format",
+    "conversionFailed": "Conversion failed",
+    "noImages": "No images to convert"
+  }
+}
