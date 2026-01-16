@@ -11,17 +11,58 @@
   },
   "settings": {
     "title": "Conversion Settings",
+    "presets": {
+      "label": "Quality Presets",
+      "tooltip": "Quick presets optimized for different use cases. Each balances quality, sharpness, and file size differently. Does not affect resize.",
+      "custom": "Custom",
+      "customDesc": "Manual configuration. Full control over all settings.",
+      "photo": "Photo",
+      "photoDesc": "For photographs. Balanced compression with natural look (Q:88, D:15, S:20).",
+      "web": "Web",
+      "webDesc": "Optimized for web. Good compression with enhanced clarity (Q:85, D:20, S:30).",
+      "crisp": "Crisp",
+      "crispDesc": "For UI and screenshots. High quality with sharp text and edges (Q:92, D:10, S:35).",
+      "webflowLike": "Clean",
+      "webflowLikeDesc": "Minimal artifacts with balanced sharpness (Q:90, D:25, S:25). Recommended!"
+    },
     "quality": {
       "label": "Quality",
-      "tooltip": "Higher quality means larger file size. 80-90 is recommended for most images."
+      "tooltip": "WebP compression quality. 85-92 recommended for most images. Higher = larger files but fewer artifacts."
     },
     "resize": {
       "label": "Resize",
-      "tooltip": "Scale down images to reduce file size. 100% keeps original dimensions."
+      "tooltip": "Change output dimensions. Choose a mode and set the target size.",
+      "modes": {
+        "percentage": "%",
+        "width": "Width",
+        "height": "Height",
+        "exact": "Exact"
+      }
+    },
+    "advanced": {
+      "title": "Advanced Options"
+    },
+    "denoise": {
+      "label": "Noise Reduction",
+      "tooltip": "Reduces image noise BEFORE compression. This prevents noise from becoming visible compression artifacts. Essential for clean results."
+    },
+    "sharpen": {
+      "label": "Sharpness",
+      "tooltip": "Enhances edges and details. Uses threshold-based sharpening that only affects real edges, avoiding artifact amplification."
     },
     "lossless": {
       "label": "Lossless",
-      "tooltip": "Preserves perfect quality but results in larger files. Best for graphics with sharp edges."
+      "tooltip": "Perfect quality with no compression artifacts. Results in larger files. Best for graphics and icons."
+    },
+    "processing": {
+      "title": "Processing Pipeline",
+      "denoise": "{level} noise reduction (reduces artifacts)",
+      "sharpen": "{level} edge enhancement (preserves details)"
+    },
+    "levels": {
+      "light": "Light",
+      "medium": "Medium",
+      "strong": "Strong"
     }
   },
   "results": {
