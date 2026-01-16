@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { HelpCircle, Settings2, RotateCcw, Image, Globe, Sparkles, Zap, ChevronDown, Percent, ArrowLeftRight, ArrowUpDown, Maximize2 } from 'lucide-react'
+import { HelpCircle, Settings2, RotateCcw, Image, Globe, Sparkles, Zap, ChevronDown, ArrowLeftRight, ArrowUpDown, Maximize2 } from 'lucide-react'
 import { ConversionSettings, DEFAULT_SETTINGS, DEFAULT_RESIZE, QualityPreset, ResizeMode, ResizeSettings, applyPreset } from '@/lib/converter'
 import en from '@/i18n/en.json'
 
@@ -330,37 +330,44 @@ function PercentageInputButton({ value, isActive, onClick, onChange, disabled }:
     <div
       onClick={handleClick}
       className={`
-        flex items-center gap-0.5 px-2 py-1 rounded text-xs transition-all
+        flex items-center gap-0 rounded text-xs transition-all overflow-hidden
         ${isActive 
-          ? 'bg-primary text-primary-foreground' 
+          ? 'ring-2 ring-primary ring-offset-1 ring-offset-background' 
           : 'bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground cursor-pointer'
         }
         ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
       `}
     >
-      {isActive ? (
-        <>
-          <input
-            type="number"
-            value={inputValue}
-            min={1}
-            max={100}
-            disabled={disabled}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
-            onFocus={() => setIsFocused(true)}
-            onKeyDown={handleKeyDown}
-            onClick={(e) => e.stopPropagation()}
-            className="w-8 bg-transparent text-center text-xs font-mono outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-          />
-          <span>%</span>
-        </>
-      ) : (
-        <>
-          <Percent className="w-3 h-3" />
-          <span>{value}%</span>
-        </>
-      )}
+      <input
+        type="number"
+        value={inputValue}
+        min={1}
+        max={100}
+        disabled={disabled}
+        onChange={handleInputChange}
+        onBlur={handleInputBlur}
+        onFocus={() => setIsFocused(true)}
+        onKeyDown={handleKeyDown}
+        onClick={(e) => {
+          e.stopPropagation()
+          if (!isActive) onClick()
+        }}
+        className={`
+          w-10 py-1 text-center text-xs font-mono outline-none 
+          [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
+          ${isActive 
+            ? 'bg-background text-foreground' 
+            : 'bg-transparent'
+          }
+        `}
+      />
+      <span className={`
+        px-1.5 py-1 text-xs font-medium
+        ${isActive 
+          ? 'bg-primary text-primary-foreground' 
+          : ''
+        }
+      `}>%</span>
     </div>
   )
 }
