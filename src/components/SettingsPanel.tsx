@@ -279,6 +279,92 @@ function ResizeModeButton({ mode, currentMode, label, icon, onClick, disabled }:
   )
 }
 
+interface PercentageInputButtonProps {
+  value: number
+  isActive: boolean
+  onClick: () => void
+  onChange: (value: number) => void
+  disabled?: boolean
+}
+
+function PercentageInputButton({ value, isActive, onClick, onChange, disabled }: PercentageInputButtonProps) {
+  const [inputValue, setInputValue] = useState(value.toString())
+  const [isFocused, setIsFocused] = useState(false)
+
+  if (!isFocused && inputValue !== value.toString()) {
+    setInputValue(value.toString())
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value)
+  }
+
+  const handleInputBlur = () => {
+    setIsFocused(false)
+    const newValue = parseInt(inputValue, 10)
+    if (isNaN(newValue) || newValue < 1) {
+      onChange(1)
+      setInputValue('1')
+    } else if (newValue > 100) {
+      onChange(100)
+      setInputValue('100')
+    } else {
+      onChange(newValue)
+      setInputValue(newValue.toString())
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.currentTarget.blur()
+    }
+  }
+
+  const handleClick = () => {
+    if (!isActive) {
+      onClick()
+    }
+  }
+
+  return (
+    <div
+      onClick={handleClick}
+      className={`
+        flex items-center gap-0.5 px-2 py-1 rounded text-xs transition-all
+        ${isActive 
+          ? 'bg-primary text-primary-foreground' 
+          : 'bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground cursor-pointer'
+        }
+        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+      `}
+    >
+      {isActive ? (
+        <>
+          <input
+            type="number"
+            value={inputValue}
+            min={1}
+            max={100}
+            disabled={disabled}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            onFocus={() => setIsFocused(true)}
+            onKeyDown={handleKeyDown}
+            onClick={(e) => e.stopPropagation()}
+            className="w-8 bg-transparent text-center text-xs font-mono outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          />
+          <span>%</span>
+        </>
+      ) : (
+        <>
+          <Percent className="w-3 h-3" />
+          <span>{value}%</span>
+        </>
+      )}
+    </div>
+  )
+}
+
 export function SettingsPanel({ settings, onChange, disabled }: SettingsPanelProps) {
   const [advancedOpen, setAdvancedOpen] = useState(false)
 
@@ -439,12 +525,11 @@ export function SettingsPanel({ settings, onChange, disabled }: SettingsPanelPro
           
           {/* Resize Mode Buttons */}
           <div className="flex flex-wrap gap-1.5">
-            <ResizeModeButton
-              mode="percentage"
-              currentMode={settings.resize.mode}
-              label={en.settings.resize.modes.percentage}
-              icon={<Percent className="w-3 h-3" />}
+            <PercentageInputButton
+              value={settings.resize.percentage}
+              isActive={settings.resize.mode === 'percentage'}
               onClick={() => handleResizeChange({ mode: 'percentage' })}
+              onChange={(value) => handleResizeChange({ percentage: value })}
               disabled={disabled}
             />
             <ResizeModeButton
@@ -475,20 +560,6 @@ export function SettingsPanel({ settings, onChange, disabled }: SettingsPanelPro
 
           {/* Resize Value Input based on mode */}
           <div className="pt-2">
-            {settings.resize.mode === 'percentage' && (
-              <SliderWithInput
-                id="resize-percentage"
-                label=""
-                tooltip=""
-                value={settings.resize.percentage}
-                min={1}
-                max={100}
-                step={1}
-                disabled={disabled}
-                onChange={(value) => handleResizeChange({ percentage: value })}
-              />
-            )}
-
             {settings.resize.mode === 'width' && (
               <div className="flex items-center gap-2">
                 <Label className="text-xs text-muted-foreground">Width:</Label>
